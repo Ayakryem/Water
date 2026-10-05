@@ -1,36 +1,6 @@
 // 1. הכתובת של ה-Firebase שלך (החליפי בכתובת הממשית שלך)
 const FIREBASE_URL = "https://watertracker-51bc0-default-rtdb.firebaseio.com/";
 
-// 2. המפתח הסודי הייחודי שלך לבדיקת הרשאה בקישור (?user=X9k2Lp8vQ1)
-const SECRET_KEY = "X9k2Lp8vQ1";
-
-let db = null;
-try {
-    firebase.initializeApp({ databaseURL: FIREBASE_URL });
-    db = firebase.database();
-} catch (e) {
-    console.error("שגיאה בהתחברות ל-Firebase:", e);
-}
-
-// בדיקת פרמטר הגישה בקישור
-const urlParams = new URLSearchParams(window.location.search);
-const userParam = urlParams.get('user');
-
-if (userParam !== SECRET_KEY) {
-    document.getElementById('appContainer').innerHTML = `
-        <div class="access-denied">
-            <h2><i class="fa-solid fa-lock"></i> גישה נדחתה</h2>
-            <p style="margin-top: 10px; color: #555;">אין הרשאה לצפות בעמוד זה ללא הקישור הסודי האישי.</p>
-        </div>
-    `;
-} else {
-    initApp();
-}
-
-let currentWater = 0;
-let dailyGoal = 2000;
-let history = [];
-const todayKey = new Date().toISOString().slice(0, 10);
 
 // טעינת הנתונים והאזנה לשינויים בזמן אמת בענן
 function initApp() {
