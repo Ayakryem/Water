@@ -1,11 +1,26 @@
-// 1. הכתובת של ה-Firebase שלך (החליפי בכתובת הממשית שלך)
-const FIREBASE_URL = "https://watertracker-51bc0-default-rtdb.firebaseio.com/";
+// 1. הכתובת של ה-Firebase שלך (וודאי שזו הכתובת הממשית שלך)
+const FIREBASE_URL = "https://watertracker-51bc0-default-rtdb.firebaseio.com";
 
+let db = null;
+try {
+    firebase.initializeApp({ databaseURL: FIREBASE_URL });
+    db = firebase.database();
+} catch (e) {
+    console.error("שגיאה בהתחברות ל-Firebase:", e);
+}
+
+let currentWater = 0;
+let dailyGoal = 2000;
+let history = [];
+const todayKey = new Date().toISOString().slice(0, 10);
+
+// הפעלת האפליקציה באופן מיידי
+initApp();
 
 // טעינת הנתונים והאזנה לשינויים בזמן אמת בענן
 function initApp() {
     if (db) {
-        db.ref(`users/${SECRET_KEY}/${todayKey}`).on('value', (snapshot) => {
+        db.ref(`users/default_user/${todayKey}`).on('value', (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 currentWater = data.currentWater || 0;
@@ -23,7 +38,7 @@ function initApp() {
 // שמירת הנתונים ב-Firebase
 function saveData() {
     if (db) {
-        db.ref(`users/${SECRET_KEY}/${todayKey}`).set({
+        db.ref(`users/default_user/${todayKey}`).set({
             currentWater: currentWater,
             dailyGoal: dailyGoal,
             history: history
