@@ -1,5 +1,5 @@
 // 1. הכתובת של ה-Firebase שלך (וודאי שזו הכתובת הממשית שלך)
-const FIREBASE_URL = "https://watertracker-51bc0-default-rtdb.firebaseio.com";
+const FIREBASE_URL = "https://watertracker-51bc0-default-rtdb.firebaseio.com/";
 
 let db = null;
 try {
